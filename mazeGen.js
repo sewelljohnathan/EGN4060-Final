@@ -1,9 +1,8 @@
 // min-spanning tree to detect issues
-var WORLD_W = 30;
-var WORLD_H = 30;
-
-var tileWidth = WIDTH / WORLD_W;
-var tileHeight = HEIGHT / WORLD_H;
+var WORLD_W;
+var WORLD_H;
+var tileWidth;
+var tileHeight;
 
 var tileSet = [
 
@@ -71,9 +70,14 @@ var tileSet = [
     ]
 ]
 
-var world = [];
+var world;
 function initWorld() {
-
+    
+    WORLD_W = parseInt(document.getElementById("worldSize").value);
+    WORLD_H = parseInt(document.getElementById("worldSize").value);
+    tileWidth = WIDTH / WORLD_W;
+    tileHeight = HEIGHT / WORLD_H;
+    
     world = [];
     for (let y = 0; y < WORLD_H; y++) {
         world.push([]);
@@ -230,8 +234,8 @@ function drawMaze() {
     }
 }
 
-var maze = [];
-var mazeEnd = WORLD_H * WORLD_W - 1;
+var maze;
+var mazeEnd;
 
 function isMazeValid() {
 
@@ -277,6 +281,8 @@ function createMaze() {
     collapse();
 
     maze = [];
+    mazeEnd = WORLD_H * WORLD_W - 1;
+
     for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
 

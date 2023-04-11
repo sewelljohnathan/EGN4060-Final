@@ -6,12 +6,16 @@
 </head>
 
 <body>
+    <label for="worldSize">Maze Size</label>
+    <input id="worldSize" value="30">
+    <br><br>
     <button onclick="createMaze();">Generate Maze</button>
+    <br><br>
     <button onclick="runSolver(dfs);">Run DFS</button>
     <button onclick="runSolver(bfs);">Run Flood Fill</button>
     <button onclick="runSolver(aStar);">Run A Star</button>
-    <br>
-    <canvas id="canvas" width="800" height="800"></canvas>
+    <br><br>
+    <canvas id="canvas" width="700" height="700"></canvas>
     <script type="text/javascript">
         var canvas = document.getElementById("canvas");
         var WIDTH = canvas.width;
