@@ -76,6 +76,7 @@ function bfs() {
 
 }
 
+let heuristicBias = 1.5;
 function aStar() {
     
     // Initialize gList with the start node as 0
@@ -88,7 +89,7 @@ function aStar() {
         for (let x = 0; x < WORLD_W; x++) {
 
             let index = y * WORLD_W + x;
-            hList.set(index, Math.abs((WORLD_W - 1) - x) + Math.abs((WORLD_H - 1) - y));
+            hList.set(index, Math.abs((mazeEnd % WORLD_W) - x) + Math.abs(Math.floor(mazeEnd / WORLD_W) - y));
 
         }
     }
@@ -104,8 +105,8 @@ function aStar() {
 
         // Sort the queue by f value
         queue.sort((a, b) => {
-            let fA = gList.get(a) + hList.get(a);
-            let fB = gList.get(b) + hList.get(b);
+            let fA = gList.get(a) + heuristicBias*hList.get(a);
+            let fB = gList.get(b) + heuristicBias*hList.get(b);
             return fA - fB;
         });
 
@@ -149,10 +150,9 @@ function runSolver(func) {
     searchIndex = 0;
     drawPath = true;
 
-}
-
-function draw() {
-
+    // When starting the solver, redraw the background to wipe previous
+    // By not doing this in the draw loop, it allows the visualizer to paint tiles one at a time, instead of drawing
+    // i <= searchIndex every frame
     ctx.fillStyle = "white";
     ctx.strokeStyle = "white";
     ctx.beginPath();
@@ -160,58 +160,60 @@ function draw() {
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
+
+}
+
+function draw() {
     
     if (drawPath) {
 
-        for (let i = 0; i <= searchIndex; i++) {
+        // Draw the next search
+        if (searchIndex < search.length - 1) {
 
-            let y = Math.floor(search[i] / WORLD_W);
-            let x = search[i] % WORLD_W;
+            let y = Math.floor(search[searchIndex] / WORLD_W);
+            let x = search[searchIndex] % WORLD_W;
             
             ctx.fillStyle = "rgb(100, 200, 50)";
             ctx.strokeStyle = "rgb(100, 200, 50)";
             ctx.beginPath();
-            ctx.rect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+            ctx.rect(x * tileWidth + 1, y * tileHeight + 1, tileWidth - 2, tileHeight - 2);
             ctx.closePath();
             ctx.fill();
             ctx.stroke();
-            
-        }
 
-        if (searchIndex < search.length - 1) {
             searchIndex++;
-        }
+
+        // Draw the next path
+        } else if (pathIndex < path.length) {
+
+            let y = Math.floor(path[pathIndex] / WORLD_W);
+            let x = path[pathIndex] % WORLD_W;
             
-        if (searchIndex == search.length - 1) {
+            ctx.fillStyle = "rgb(255, 100, 100)";
+            ctx.strokeStyle = "rgb(255, 100, 100)";
+            ctx.beginPath();
+            ctx.rect(x * tileWidth + 1, y * tileHeight + 1, tileWidth - 2, tileHeight - 2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
 
-            for (let i = 0; i <= pathIndex; i++) {
+            pathIndex++;
 
-                let y = Math.floor(path[i] / WORLD_W);
-                let x = path[i] % WORLD_W;
-                
-                ctx.fillStyle = "rgb(255, 100, 100)";
-                ctx.strokeStyle = "rgb(255, 100, 100)";
-                ctx.beginPath();
-                ctx.rect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-                ctx.closePath();
-                ctx.fill();
-                ctx.stroke();
-
-            }
-
-            if (pathIndex < path.length - 1) {
-                pathIndex++;
-            }
-
+        } else {
+            drawPath = false;
         }
             
     }
 
+    // Draw maze over path
+    drawMaze();
+
+    // Boundary
     ctx.strokeStyle = "black";
     ctx.lineWidth = 5;
     ctx.strokeRect(0, 0, WIDTH, HEIGHT);
-    drawMaze();
 
+    // Call next frame
     window.requestAnimationFrame(draw);
 }
 
