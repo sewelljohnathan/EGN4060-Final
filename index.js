@@ -27,6 +27,47 @@ function dfs(visited, cur) {
 
 }
 
+function bfs() {
+
+    let queue = [0];
+    let visited = new Set();
+
+    let from = new Array(WORLD_H * WORLD_W);
+
+    while (queue.length > 0) {console.log(search);
+
+        let index = queue.shift();
+        if (visited.has(index)) {
+            continue;
+        }
+
+        visited.add(index);
+        search.push(index);
+
+        if (index == mazeEnd) {
+            break;
+        }
+
+        maze[index].forEach(element => {
+
+            if (!visited.has(element)) {
+                queue.push(element);
+                from[element] = index;
+            }
+
+        });
+
+    }
+
+    let cur = mazeEnd;
+    while (cur != 0) {
+
+        path.push(cur);
+        cur = from[cur];
+    }
+
+}
+
 function runSolver(func) {
     
     path = [];
@@ -39,6 +80,7 @@ function runSolver(func) {
     drawPath = true;
 
 }
+
 function draw() {
 
     ctx.fillStyle = "white";
