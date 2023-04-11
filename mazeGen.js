@@ -1,6 +1,6 @@
 // min-spanning tree to detect issues
-var WORLD_W = 20;
-var WORLD_H = 20;
+var WORLD_W = 30;
+var WORLD_H = 30;
 
 var tileWidth = WIDTH / WORLD_W;
 var tileHeight = HEIGHT / WORLD_H;
