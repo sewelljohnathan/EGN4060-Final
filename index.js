@@ -153,13 +153,7 @@ function runSolver(func) {
     // When starting the solver, redraw the background to wipe previous
     // By not doing this in the draw loop, it allows the visualizer to paint tiles one at a time, instead of drawing
     // i <= searchIndex every frame
-    ctx.fillStyle = "white";
-    ctx.strokeStyle = "white";
-    ctx.beginPath();
-    ctx.rect(0, 0, WIDTH, HEIGHT);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
+    drawBackground();
 
 }
 

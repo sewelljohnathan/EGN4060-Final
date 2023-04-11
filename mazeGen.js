@@ -257,6 +257,18 @@ function isMazeValid() {
 
 }
 
+function drawBackground() {
+
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "white";
+    ctx.beginPath();
+    ctx.rect(0, 0, WIDTH, HEIGHT);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+}
+
 function createMaze() {
     
     drawPath = false;
@@ -298,5 +310,7 @@ function createMaze() {
     if (!isMazeValid()) {
         createMaze();
     }
+
+    drawBackground();
     
 }
