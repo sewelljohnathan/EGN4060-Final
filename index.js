@@ -5,25 +5,33 @@ let search = [];
 let pathIndex = 0;
 let searchIndex = 0;
 
-function dfs(visited, cur) {
+function dfs() {
 
-    if (visited.has(cur)) {
-        return false;
-    }
-    search.push(cur);
-    visited.add(cur);
+    let visited = new Set();
 
-    if (cur === mazeEnd) {
-        return true;
-    }
+    function run(cur) {
 
-    for (let i = 0; i < maze[cur].length; i++) {
-        if (dfs(visited, maze[cur][i])) {
-            path.push(maze[cur][i]);
+        if (visited.has(cur)) {
+            return false;
+        }
+        search.push(cur);
+        visited.add(cur);
+
+        if (cur === mazeEnd) {
             return true;
         }
+
+        for (let i = 0; i < maze[cur].length; i++) {
+            if (run(maze[cur][i])) {
+                path.push(maze[cur][i]);
+                return true;
+            }
+        }
+        return false;
+
     }
-    return false;
+
+    run(0);
 
 }
 

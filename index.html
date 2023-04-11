@@ -7,7 +7,7 @@
 
 <body>
     <button onclick="createMaze();">Generate Maze</button>
-    <button onclick="runSolver(() => { dfs(new Set(), 0); });">Run DFS</button>
+    <button onclick="runSolver(dfs);">Run DFS</button>
     <button onclick="runSolver(bfs);">Run Flood Fill</button>
     <br>
     <canvas id="canvas" width="800" height="800"></canvas>
